@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>بتحبوا السوفو؟ 😂❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;900&display=swap');
+        *{box-sizing:border-box}
+        body{
+            margin:0;
+            min-height:100vh;
+            overflow:hidden;
+            font-family:Cairo,sans-serif;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:linear-gradient(135deg,#ff6ec7,#7c5cff,#19d3ff,#55e6a5);
+            background-size:400% 400%;
+            animation:bg 10s ease infinite;
+        }
+        @keyframes bg{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+        .card{
+            width:min(92%,560px);
+            padding:42px 28px;
+            text-align:center;
+            position:relative;
+            background:rgba(255,255,255,.88);
+            border:3px solid rgba(255,255,255,.9);
+            border-radius:35px;
+            box-shadow:0 25px 80px rgba(30,20,80,.25);
+            backdrop-filter:blur(12px);
+            z-index:5;
+        }
+        .emoji{font-size:55px; animation:bounce 1.8s infinite}
+        @keyframes bounce{50%{transform:translateY(-10px) rotate(5deg)}}
+        h1{font-size:clamp(28px,7vw,46px); margin:8px 0 10px; color:#44207d; font-weight:900}
+        .sub{font-size:18px;color:#666;margin-bottom:30px}
+        
+        .buttons{height:140px;position:relative;display:flex;justify-content:center;gap:25px;align-items:center}
+        
+        .yes-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .cute-snake {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 26px;
+            z-index: 6;
+            animation: snakeBounce 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes snakeBounce {
+            0% { transform: translateX(-50%) translateY(0) rotate(-5deg); }
+            100% { transform: translateX(-50%) translateY(-6px) rotate(5deg); }
+        }
+
+        button{
+            border:0;
+            padding:14px 30px;
+            border-radius:18px;
+            font:900 18px Cairo;
+            cursor:pointer;
+            box-shadow:0 9px 20px rgba(0,0,0,.15);
+            transition:.2s;
+        }
+        #yes{background:linear-gradient(135deg,#ff3d81,#ff7a18);color:white; z-index: 2; position: relative;}
+        #no{background:#eee;color:#555;position:relative;transition:left .18s ease,top .18s ease,transform .18s ease; z-index: 1;}
+        #msg{min-height:34px;color:#e73578;font-weight:900;font-size:17px}
+        .particle{position:fixed;pointer-events:none;z-index:10;font-size:24px;animation:fall 2.8s linear forwards}
+        @keyframes fall{to{transform:translateY(110vh) rotate(500deg);opacity:0}}
+        .success{display:none}
+        .success h2{font-size:42px;color:#ef3b7a;margin:10px}
+        .success p{font-size:20px;color:#555}
+        .badge{display:inline-block;background:#fff0f7;color:#e73578;padding:7px 15px;border-radius:999px;font-weight:800}
+    </style>
+</head>
+<body>
+    <!-- عنصر الصوت بيشير لملف song.mp3 الموجود في نفس المجلد -->
+    <audio id="akhouya-song" preload="auto" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card">
+        <div id="main">
+            <div class="emoji">🥹❤️</div>
+            <span class="badge">سؤال مصيري جدًا</span>
+            <h1>بتحبوا السوفو يا إخواتي؟ 😂</h1>
+            <div class="sub">اختاروا إجابة بكل صراحة... إحنا ناس مش بتزعل 😌</div>
+            <div class="buttons" id="area">
+                <div class="yes-wrapper">
+                    <div class="cute-snake">🐍</div>
+                    <button id="yes">أيوه ❤️</button>
+                </div>
+                <button id="no">لأ ❌</button>
+            </div>
+            <div id="msg">مستنيين الإجابة 👀</div>
+        </div>
+        <div id="success" class="success">
+            <div class="emoji">🎉😍❤️</div>
+            <h2>كنت عارف! 😂</h2>
+            <p>السوفو كسبت في النهاية يا إخواتي ❤️🔥</p>
+            <div class="badge">تم تأكيد الحب للسوفو رسميًا 😂</div>
+        </div>
+    </div>
+    
+    <script>
+        const no = document.getElementById('no'), yes = document.getElementById('yes');
+        const area = document.getElementById('area'), msg = document.getElementById('msg');
+        const main = document.getElementById('main'), success = document.getElementById('success');
+        const music = document.getElementById('akhouya-song');
+        
+        const texts = [
+            "الديتول مش هيمسح أوسخ نسخة من الصحاب 😂",
+            "منك لله يا بطة! 🦆😂",
+            "دومين هي السبب في الليلة دي كلها 😏",
+            "يعم حد ميحبش أسوء نسخة من الصحاب 😂",
+            "دا سوعبان كيوت يا جدعان! 🐍❤️",
+            "يعم دوس Yes وخلصنا 😂",
+            "إنت بتعمل إيه بس؟ 😭",
+            "متستعبطش.. دوس أيوه 😂",
+            "هو إحنا هنقعد كتير؟ 😏",
+            "الـ No دي مش موجودة عندنا 😂",
+            "خلاص بقى وافق ❤️",
+            "إنت داخل تعاند يعني؟ 😂",
+            "آخر تحذير... دوس Yes 🚨😂",
+            "يا ابني الزرار هرب منك 😂",
+            "طب تعالى هنا يا عم 😭❤️"
+        ];
+        
+        let tries = 0;
+        let lastX = 0, lastY = 0;
+        
+        function moveNo() {
+            msg.textContent = texts[tries % texts.length];
+            tries++;
+            
+            const r = area.getBoundingClientRect();
+            const b = no.getBoundingClientRect();
+            const yesRect = yes.getBoundingClientRect();
+            
+            let maxX = Math.max(0, r.width - b.width);
+            let maxY = Math.max(0, r.height - b.height);
+            
+            let randomX, randomY;
+            let attempts = 0;
+            
+            do {
+                randomX = Math.random() * maxX;
+                randomY = Math.random() * maxY;
+                
+                let noAbsoluteLeft = r.left + randomX;
+                let noAbsoluteTop = r.top + randomY;
+                
+                let isOverlappingYes = !(
+                    noAbsoluteLeft + b.width < yesRect.left ||
+                    noAbsoluteLeft > yesRect.left + yesRect.width ||
+                    noAbsoluteTop + b.height < yesRect.top ||
+                    noAbsoluteTop > yesRect.top + yesRect.height
+                );
+                
+                let distanceFromLast = Math.hypot(randomX - lastX, randomY - lastY);
+                let isTooCloseToOld = (distanceFromLast < 110 && attempts < 25);
+                
+                if (!isOverlappingYes && !isTooCloseToOld) {
+                    break;
+                }
+                
+                attempts++;
+            } while (attempts < 40);
+            
+            lastX = randomX;
+            lastY = randomY;
+            
+            no.style.position = 'absolute';
+            no.style.left = randomX + 'px';
+            no.style.top = randomY + 'px';
+            no.style.transform = `rotate(${Math.random() * 40 - 20}deg) scale(${1 - Math.min(tries * .012, .15)})`;
+            
+            if (tries >= 3) {
+                yes.style.transform = `scale(${1 + Math.min(tries * .02, .18)})`;
+            }
+        }
+        
+        ['mouseenter', 'touchstart', 'click'].forEach(e => no.addEventListener(e, (ev) => {
+            ev.preventDefault();
+            moveNo();
+        }));
+        
+        yes.addEventListener('click', () => {
+            music.volume = 1.0;
+            music.play().catch(e => console.log("خطأ في تشغيل الصوت:", e));
+            
+            main.style.display = 'none';
+            success.style.display = 'block';
+            for (let i = 0; i < 80; i++) {
+                const p = document.createElement('div');
+                p.className, 'particle';
+                p.className = 'particle';
+                p.textContent = ['❤️', '💖', '🎉', '✨', '😂', '🔥', '⭐', '🐍'][Math.floor(Math.random() * 8)];
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.top = (-Math.random() * 30) + 'vh';
+                p.style.animationDelay = Math.random() * 1.5 + 's';
+                p.style.fontSize = (18 + Math.random() * 25) + 'px';
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 4500);
+            }
+        });
+    </script>
+</body>
+</html>
